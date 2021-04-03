@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+	<style>
+		.align-center {
+			margin: 0 auto;
+		}
+	</style>
+{% endblock %}
+{% block body %}
+	<div class="row">
+		<div class="col-lg-8 align-center">
+			<h1>Blogs</h1>
+
+			{% for label, messages in app.flashes %}
+				{% for message in messages %}
+					<div class="flash-{{ label }}">
+						{{ message }}
+					</div>
+				{% endfor %}
+			{% endfor %}
+
+			{% for blog in blogs %}
+				{% if(asset("image/"~blog.image)) != null %}
+
+					<div class="card mb-3">
+						<div class="row g-0">
+							<div class="col-md-4">
+								<div class="card-body">
+									<img class="me-auto p-2 bd-highlight" src="{{asset("image/"~blog.image)}}" style="height:300px"/>
+								</div>
+								<div class="col-md-8">
+									<p class="fs-3 fw-bold card-title">
+										{{ blog.title }}
+									</p>
+									<p class="card-text">{{ blog.shortDescription }}</p>
+									<p class="ms-auto p-2 bd-highlight">
+										<a href="{{ path('app_main_editblog', {id: blog.id}) }}" class="btn btn-primary">Edit</a>
+										<a href="{{ path('app_blog_delete', {id: blog.id}) }}" onclick="return confirm('Sei sicuro?');" class="btn btn-danger">DELETE</a>
+										<a href="{{ path('app_blog_read', {id: blog.id}) }}" class="btn btn-success">Read</a>
+									</p>
+								</div>
+							</div>
+						</div>
+					{% endif %}
+				{% endfor %}
+
+			</tbody>
+		</table>
+
+
+	</div>
+</div>
+<div class="row">
+	<div class="col-lg-8  align-center">
+		<a href="{{ path('app_main_createblog') }}" class="btn btn-primary">Create blog</a>
+	</div>
+</div>{% endblock %}
