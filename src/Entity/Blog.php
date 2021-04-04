@@ -39,9 +39,9 @@ class Blog
     private $body;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=false, options={"default":"jqufgsonyk141.jpg"})
+     * @ORM\Column(type="string", length=255, nullable=false, options={"default":"index.png"})
      */
-    private $image="jqufgsonyk141.jpg";
+    private $image="index.png";
 
     public function getId(): ?int
     {
