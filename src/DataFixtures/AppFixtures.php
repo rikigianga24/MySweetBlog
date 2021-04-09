@@ -13,7 +13,7 @@ class AppFixtures extends Fixture
         // $product = new Product();
         // $manager->persist($product);
 
-        for ($i = 0; $i < 4; ++$i) {
+        for ($i = 0; $i < 10; ++$i) {
             $blog = new Blog();
             $blog->setTitle('Lorem ipsum');
             $blog->setBody('Lorem ipsum dolor sit amet, consectetur adipiscing elit. 

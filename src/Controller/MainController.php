@@ -15,7 +15,12 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 
 use App\Repository\BlogRepository;
 use App\Entity\Blog;
+use App\Entity\Category;
+use App\Entity\User;
+use App\Repository\UserRepository;
 use App\Form\BlogFormType;
+use App\Form\RegistrationFormType;
+use App\Repository\CategoryRepository;
 
 class MainController extends AbstractController
 {
@@ -23,13 +28,25 @@ class MainController extends AbstractController
      * @Route("/")
      *
      * @param BlogRepository $blogRepository
+     * 
+     * @param CategoryRepository $categoryRepository
      *
      * @return Response
      */
-    public function index(BlogRepository $blogRepository)
+    public function index(Request $request, BlogRepository $blogRepository, CategoryRepository $categoryRepository)
     {
-        $blogs = $blogRepository->findAll();
-        return $this->render('list.html.twig', ['blogs'=>$blogs]);
+        $category = $request->query->has('category') ? $categoryRepository->find($request->query->get('category')) : null;
+
+        if ($category)
+            $blogs = $blogRepository->findBy([ 'category' => $category ]);
+        else
+            $blogs = $blogRepository->findAll();
+
+        return $this->render('list.html.twig', [
+            'blogs' => $blogs,
+            'categories' => $categoryRepository->findAll(),
+            'selectedCategory' => $category
+        ]);
     }
 
      /**
@@ -84,7 +101,7 @@ class MainController extends AbstractController
      */
     public function editBlog(Blog $blog, Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger)
     {
-        if ($blog->getImage()){
+        if (!$blog->getImage()){
             $blog->setImage(new File(sprintf('%s/%s', $this->getParameter('image_directory'), $blog->getImage())));
         }
         $form = $this->createForm(BlogFormType::class, $blog);
@@ -117,7 +134,7 @@ class MainController extends AbstractController
         }
 
         return $this->render('create.html.twig', [
-            'form' => $form->createView(),
+            'form' => $form->createView()
         ]);
     }
 

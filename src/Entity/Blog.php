@@ -11,6 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Blog
 {
+   
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -42,6 +43,13 @@ class Blog
      * @ORM\Column(type="string", length=255, nullable=false, options={"default":"index.png"})
      */
     private $image="index.png";
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="blogs")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $category;
+
 
     public function getId(): ?int
     {
@@ -92,6 +100,18 @@ class Blog
     public function setImage(?string $image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }

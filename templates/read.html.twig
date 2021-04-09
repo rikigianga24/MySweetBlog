@@ -1,16 +1,26 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-    <div class="text-center container-sm overflow-hidden mt-5 mr-5 ml-5">
-            <div class="p-4 p-md-5 mb-4 text-white rounded bg-dark">
-                <img src="{{asset("image/"~read.image)}}" alt="unable to load image"/>
-                <h2 class="display-4 fst-italic">{{read.title}}</h2>
-            </div>
+	<nav class="navbar navbar-light bg-light">
+		<div class="container-fluid d-flex justify-content-center">
 
-            <h5>{{ read.shortDescription }}</h5>
-            <p class="">
-                {{ read.body }}
-            </p>
-</div>
-            
+			<img src="../image/sweet.png" width="30" height="30">
+			<h3>
+				My Sweet Blog!
+			</h3>
+
+		</div>
+	</nav>
+	<div class="text-center container-sm overflow-hidden mt-5 mr-5 ml-5">
+		<div class="p-4 p-md-5 mb-4 text-white rounded bg-dark">
+			<img src="/image/{{read.image}}" alt="unable to load image" class="img-fluid" style="width:600px"/>
+			<h2 class="display-4 fst-italic">{{read.title}}</h2>
+		</div>
+
+		<h5>{{ read.shortDescription }}</h5>
+		<p class="">
+			{{ read.body }}
+		</p>
+	</div>
+
 
 {% endblock %}
