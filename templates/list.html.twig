@@ -60,12 +60,14 @@
 			{% endfor %}
 
 			{% for blog in blogs %}
+			
 
 				<div class="card shadow mb-2 p-1">
 
 					<div class="row g-4">
 
 						<div class="col-auto">
+							<span class="badge rounded-pill bg-info text-dark">{{blog.category.name}}</span>
 							<div class="card-body">
 								{% if blog.image is not null %}
 									<img class=" shadow rounded p-2 bd-highlight image-fluid" src="/image/{{blog.image}}" style="width:600px"/>
@@ -81,18 +83,19 @@
 							</div>
 							<p class="card-text">{{ blog.shortDescription }}</p>
 						</div>
-
-						<span class="badge rounded-pill bg-info text-dark">{{blog.category.name}}</span>
-
-						<div class="col-auto ms-auto p-2 d-flex align-items-end">
+						
+					<div class="col-auto ms-auto p-2 d-flex align-items-end">
+					{% if user == blog.user %}
+						
 							<a href="{{ path('app_main_editblog', {id: blog.id}) }}" class="btn btn-primary">Edit</a>
 							<a href="{{ path('app_blog_delete', {id: blog.id}) }}" onclick="return confirm('Sei sicuro?');" class="btn btn-danger">DELETE</a>
+						</div>
+					{% endif %}
 							<a href="{{ path('app_blog_read', {id: blog.id}) }}" class="btn btn-success">Read</a>
 						</div>
-
 					</div>
 				</div>
-
+				
 			{% endfor %}
 
 		</div>

@@ -21,6 +21,7 @@ use App\Repository\UserRepository;
 use App\Form\BlogFormType;
 use App\Form\RegistrationFormType;
 use App\Repository\CategoryRepository;
+use Psr\Log\LoggerInterface;
 
 class MainController extends AbstractController
 {
@@ -44,6 +45,7 @@ class MainController extends AbstractController
 
         return $this->render('list.html.twig', [
             'blogs' => $blogs,
+            'user' => $this->getUser(),
             'categories' => $categoryRepository->findAll(),
             'selectedCategory' => $category
         ]);
@@ -56,9 +58,10 @@ class MainController extends AbstractController
      *
      * @return Response
      */
-    public function createBlog(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger)
+    public function createBlog(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger,LoggerInterface $logger)
     {
         $blog = new Blog();
+        
         
         $form = $this->createForm(BlogFormType::class, $blog);
 
@@ -80,8 +83,9 @@ class MainController extends AbstractController
                     $this->addFlash('error', 'Image cannot be saved.');
                 }
                 $blog->setImage($newFilename);
+                
             }
-
+            $blog->setUser($this->getUser());
             $entityManager->persist($blog);
             $entityManager->flush();
             $this->addFlash('success', 'Blog was created!');
