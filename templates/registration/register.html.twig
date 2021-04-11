@@ -1,21 +1,33 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Register
+{% endblock %}
 
 {% block body %}
-    {% for flashError in app.flashes('verify_email_error') %}
-        <div class="alert alert-danger" role="alert">{{ flashError }}</div>
-    {% endfor %}
+	<nav class="navbar navbar-light bg-light">
+		<div class="container-fluid d-flex justify-content-center">
 
-    <h1>Register</h1>
+			<img src="../image/sweet.png" width="30" height="30">
+			<h3>
+				My Sweet Blog!
+			</h3>
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.username) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+		</div>
+	</nav>
+	{% for flashError in app.flashes('verify_email_error') %}
+		<div class="alert alert-danger" role="alert">{{ flashError }}</div>
+	{% endfor %}
 
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+	
+	<div class="container">
+        <h1>Registrati a MySweetBlog</h1>
+		{{ form_start(registrationForm) }}
+		{{ form_row(registrationForm.username) }}
+		{{ form_row(registrationForm.password.first) }}
+        {{ form_row(registrationForm.password.second) }}
+		{{ form_row(registrationForm.agreeTerms) }}
+
+		<button type="submit" class="btn btn-success">Conferma</button>
+		{{ form_end(registrationForm) }}
+	</div>
 {% endblock %}

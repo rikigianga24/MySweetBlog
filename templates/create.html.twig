@@ -12,40 +12,50 @@
 		</div>
 	</nav>
 	<div class="container">
-		<h1 class="text-center">Create new blog entry.</h1>
-
-		{% for label, messages in app.flashes %}
-			{% for message in messages %}
-				<div class="flash-{{ label }}">
-					{{ message }}
-				</div>
+		<h1 class="text-center">Pubblica il tuo SweetBlog!</h1>
+		{% if user %}
+			{% for label, messages in app.flashes %}
+				{% for message in messages %}
+					<div class="flash-{{ label }}">
+						{{ message }}
+					</div>
+				{% endfor %}
 			{% endfor %}
-		{% endfor %}
 
-		{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
-		{# {{ form_start(form) }} #}
+			{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+			{# {{ form_start(form) }} #}
 
-		{{ form_errors(form) }}
-		<div class="p-5">
-			<div class="form-group">
-				{{ form_row(form.title) }}
+			{{ form_errors(form) }}
+			<div class="p-5">
+				<div class="form-group">
+					{{ form_row(form.title) }}
+				</div>
+				<div class="form-group">
+					{{ form_row(form.shortDescription) }}
+				</div>
+
+				<div class="form-group">
+					{{ form_row(form.body) }}
+				</div>
+
+				<div class="form-group">
+					{{ form_row(form.imageFile) }}
+				</div>
+
+
+				<input type="submit" class="btn btn-primary"/>
+				{{ form_end(form) }}
 			</div>
-			<div class="form-group">
-				{{ form_row(form.shortDescription) }}
+		{% endif %}
+		{% if not user %}
+			<div class="alert alert-danger text-center" role="alert">
+			  <hr>
+			<h2 class="alert-heading ">Utente non registrato!</h2>
+			 <hr>
+			
+			<p><h4>Per garantire la sicurezza all'interno di MySweetBlog abbiamo bloccato l'inserimento di nuovi SweetBlog da parte di account non registrati</h4></p>
+			<a href="/login" class="link-primary">Accedi</a> o <a href="/register" class="link-primary">Registrati</a>
 			</div>
-
-			<div class="form-group">
-				{{ form_row(form.body) }}
-			</div>
-
-			<div class="form-group">
-				{{ form_row(form.imageFile) }}
-			</div>
-
-
-
-			<input type="submit" class="btn btn-primary"/>
-			{{ form_end(form) }}
-		</div>
+		{% endif %}
 	</div>
 {% endblock %}
